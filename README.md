@@ -14,9 +14,11 @@ Chat system between users
 Profile with cover image
 Admin dashboard with real-time data (users, posts, likes, comments, messages)
 
+
+
 ##Screenshots##
-![Login](screenshots/login.png)
-![Feed](screenshots/feed.png)
-![Profile](screenshots/profile.png)
+![login](screenshots/login.png)
+![feed](screenshots/feed.png)
+![profile](screenshots/profile.png)
 ![chat](screenshots/chat.png)
-![Dashboard](screenshots/admindashboard.png)
+![admindashboard](screenshots/admindashboard.png)
