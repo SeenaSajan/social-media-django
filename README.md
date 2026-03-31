@@ -15,6 +15,6 @@ Profile with cover image
 Admin dashboard with real-time data (users, posts, likes, comments, messages)
 
 
-
-##Screenshots##
-![Login](screenshots/login.png)
+##Roles##
+Admin: Can access dashboard and monitor platform activity
+User: Can create posts, like, comment, follow, chat, and manage profile
