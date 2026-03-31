@@ -17,8 +17,4 @@ Admin dashboard with real-time data (users, posts, likes, comments, messages)
 
 
 ##Screenshots##
-![login](screenshots/login.png)
-![feed](screenshots/feed.png)
-![profile](screenshots/profile.png)
-![chat](screenshots/chat.png)
-![admindashboard](screenshots/admindashboard.png)
+![Login](screenshots/login.png)
