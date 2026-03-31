@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4 text-center">
+    <h3>{{ story.user.username }}'s Story</h3>
+
+    <div class="card mx-auto mt-3" style="max-width:500px;">
+        <img src="{{ story.image.url }}" class="img-fluid" alt="Story Image">
+        <div class="card-body">
+            <small class="text-muted">{{ story.created_at }}</small>
+        </div>
+    </div>
+
+    <a href="{% url 'feed' %}" class="btn btn-secondary mt-3">Back to Feed</a>
+</div>
+
+{% endblock %}

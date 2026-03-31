@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-4">Admin Dashboard</h3>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card"><div class="card-body"><h5>Total Users</h5><p class="mb-0">120</p></div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card"><div class="card-body"><h5>Total Posts</h5><p class="mb-0">540</p></div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card"><div class="card-body"><h5>Reports</h5><p class="mb-0">5</p></div></div>
+  </div>
+</div>
+<div class="row g-4">
+
+    <div class="col-md-3">
+        <div class="card text-white bg-primary text-center p-4">
+            <h5>Users</h5>
+            <h3>{{ users_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success text-center p-4">
+            <h5>Posts</h5>
+            <h3>{{ posts_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger text-center p-4">
+            <h5>Likes</h5>
+            <h3>{{ likes_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning text-center p-4">
+            <h5>Comments</h5>
+            <h3>{{ comments_count }}</h3>
+        </div>
+    </div>
+
+<div class="row g-4 mt-2">
+
+    <div class="col-md-3">
+        <div class="card text-white bg-info text-center p-4">
+            <h5>Followers</h5>
+            <h3>{{ follows_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary text-center p-4">
+            <h5>Stories</h5>
+            <h3>{{ stories_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-dark text-center p-4">
+            <h5>Messages</h5>
+            <h3>{{ messages_count }}</h3>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="mb-3">Quick Actions</h5>
+
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-outline-primary">Manage Users</button>
+          <button class="btn btn-outline-primary">Manage Posts</button>
+          <button class="btn btn-outline-danger">View Reports</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

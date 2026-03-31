@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3 class="mb-4">Chats</h3>
+
+<div class="list-group">
+    {% for user in users %}
+        <a href="{% url 'chat_room' user.id %}" class="list-group-item list-group-item-action">
+            {{ user.username }}
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

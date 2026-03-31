@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card p-4">
+        <h3 class="mb-3">Edit Post</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Caption</label>
+                <textarea name="caption" class="form-control" rows="4">{{ post.caption }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Change Image</label>
+                <input type="file" name="image" class="form-control">
+            </div>
+
+            {% if post.image %}
+                <img src="{{ post.image.url }}" style="width:200px; margin-bottom:10px;">
+            {% endif %}
+
+            <button class="btn btn-primary">Update</button>
+            <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

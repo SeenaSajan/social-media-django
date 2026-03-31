@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-3">{{ profile_user.username }}'s Profile</h2>
+
+<div class="d-flex gap-4 mb-3">
+
+    <div>
+        <strong>{{ user_posts|length }}</strong><br>
+        <small>Posts</small>
+    </div>
+
+    <div>
+        <strong>{{ followers_count }}</strong><br>
+        <small>Followers</small>
+    </div>
+
+    <div>
+        <strong>{{ following_count }}</strong><br>
+        <small>Following</small>
+    </div>
+
+</div>
+
+{% if profile_user.profile.image %}
+    <img src="{{ profile_user.profile.image.url }}"
+         style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
+{% endif %}
+
+{% if request.user != profile_user %}
+    <a href="{% url 'follow_user' profile_user.username %}" class="btn btn-primary mb-3">
+        {% if is_following %}
+            Unfollow
+        {% else %}
+            Follow
+        {% endif %}
+    </a>
+{% endif %}
+
+<div class="row mt-4">
+  {% for post in user_posts %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        {% if post.image %}
+          <img src="{{ post.image.url }}" class="card-img-top" style="height:250px; object-fit:cover;">
+        {% endif %}
+        <div class="card-body">
+          <p>{{ post.caption }}</p>
+          <p><strong>{{ post.like_set.count }} likes</strong></p>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No posts yet.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

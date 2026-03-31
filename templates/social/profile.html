@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card mb-4" style="overflow:hidden; border-radius:15px;">
+
+    <div style="position: relative;">
+
+        {% if request.user.profile.cover_image %}
+            <img src="{{ request.user.profile.cover_image.url }}"
+                 alt="Cover Image"
+                 style="width:100%; height:220px; object-fit:cover;">
+        {% else %}
+            <div style="width:100%; height:220px; background:linear-gradient(to right, #dfe9f3, #ffffff);"></div>
+        {% endif %}
+
+        {% if request.user.profile.image %}
+            <img src="{{ request.user.profile.image.url }}"
+                 alt="Profile Picture"
+                 style="width:130px; height:130px; border-radius:50%; object-fit:cover;
+                        position:absolute; bottom:-115px; left:30px;
+                        border:4px solid white; background:white;
+                        box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+        {% endif %}
+    </div>
+
+    <div class="card-body" style="padding-top:20px; padding-left:230px; min-height:180px;">
+
+        <h2 class="mb-3">{{ request.user.username }}</h2>
+
+        <div class="d-flex gap-5 mb-3">
+            <div>
+                <strong>{{ user_posts|length }}</strong><br>
+                <small>Posts</small>
+            </div>
+
+            <div>
+                <strong>{{ followers_count }}</strong><br>
+                <small>Followers</small>
+            </div>
+
+            <div>
+                <strong>{{ following_count }}</strong><br>
+                <small>Following</small>
+            </div>
+        </div>
+
+        <a href="{% url 'update_profile' %}" class="btn btn-secondary btn-sm">
+            Edit Profile
+        </a>
+
+    </div>
+</div>
+
+<h4 class="mb-3">My Posts</h4>
+
+<div class="row">
+  {% for post in user_posts %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        {% if post.image %}
+          <img src="{{ post.image.url }}" class="card-img-top" alt="Post Image" style="height: 250px; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+          <p class="card-text">{{ post.caption }}</p>
+          <p><strong>{{ post.like_set.count }} likes</strong></p>
+          <small class="text-muted">{{ post.created_at }}</small>
+
+          <div class="d-flex gap-2 mt-3">
+            <a href="{% url 'like_post' post.id %}" class="btn btn-light btn-sm">❤️</a>
+
+            <button type="button" onclick="toggleComment({{ post.id }})" class="btn btn-light btn-sm">💬</button>
+          </div>
+          <a href="{% url 'edit_post' post.id %}" class="btn btn-warning btn-sm mt-2">Edit</a>
+         
+          <form method="POST" action="{% url 'delete_post' post.id %}" style="margin-top:10px;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm"
+              onclick="return confirm('Are you sure you want to delete this post?')">
+              Delete
+           </button>
+          </form>
+
+          <div id="comment-box-{{ post.id }}" style="display:none; margin-top:10px;">
+            <form method="POST" action="{% url 'add_comment' post.id %}">
+              {% csrf_token %}
+              <input type="text" name="comment" placeholder="Write a comment..." class="form-control mb-2">
+              <button class="btn btn-sm btn-secondary">Post</button>
+            </form>
+          </div>
+
+          <div class="mt-2">
+            {% for comment in post.comment_set.all %}
+              <p style="margin-bottom:3px;">
+                <strong>{{ comment.user.username }}</strong> {{ comment.text }}
+              </p>
+            {% endfor %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No posts yet.</p>
+  {% endfor %}
+</div>
+
+<script>
+function toggleComment(postId) {
+    const box = document.getElementById("comment-box-" + postId);
+
+    if (box.style.display === "none") {
+        box.style.display = "block";
+    } else {
+        box.style.display = "none";
+    }
+}
+</script>
+
+{% endblock %}

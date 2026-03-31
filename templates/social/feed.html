@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="feed-wrapper">
+
+  <div class="card mb-4" style="padding:20px; background: linear-gradient(to right, #1e3c72, #2a5298); color:white; border:none;">
+    <h4>Welcome, {{ request.user.username }} 👋</h4>
+    <p style="margin:0;">See what’s happening today</p>
+  </div>
+
+  <h2 class="mb-4 text-center">Social Feed</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="mb-3">Stories</h5>
+
+      <form method="POST" enctype="multipart/form-data" class="mb-3">
+        {% csrf_token %}
+        {{ story_form.image }}
+        <button type="submit" name="story_submit" class="btn btn-sm btn-primary mt-2">Add Story</button>
+      </form>
+
+      <div class="stories-row">
+        {% for story in stories %}
+          <div class="story-item">
+            <a href="{% url 'story_viewer' story.id %}" style="text-decoration:none; color:black;">
+              <img src="{{ story.image.url }}"
+                   alt="Story"
+                   style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:3px solid #ff4d6d;">
+              <div style="font-size:12px; margin-top:5px;">{{ story.user.username }}</div>
+            </a>
+          </div>
+        {% empty %}
+          <p>No stories yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <hr style="opacity:0.2;">
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5>Create a Post</h5>
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          {{ form.caption }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.image }}
+        </div>
+
+        <button type="submit" name="post_submit" class="btn btn-primary">Post</button>
+      </form>
+    </div>
+  </div>
+
+  <hr style="opacity:0.2;">
+
+  {% for post in posts %}
+  <div class="card mb-4" style="border-radius:10px; overflow:hidden;">
+
+    <div class="card-body">
+
+      <div class="d-flex align-items-center mb-2">
+        {% if post.user.profile.image %}
+          <img src="{{ post.user.profile.image.url }}"
+               style="width:40px; height:40px; border-radius:50%; object-fit:cover; margin-right:10px;">
+        {% endif %}
+
+        <strong>
+          <a href="{% url 'user_profile' post.user.username %}" style="text-decoration:none; color:black;">
+            {{ post.user.username }}
+          </a>
+        </strong>
+      </div>
+
+    </div>
+
+    {% if post.image %}
+      <img src="{{ post.image.url }}" style="width:100%; max-height:350px; object-fit:contain;">
+    {% endif %}
+
+    <div class="card-body">
+
+      <div class="d-flex gap-3 mb-2">
+        <a href="{% url 'like_post' post.id %}" style="text-decoration:none; font-size:20px;">
+          ❤️
+        </a>
+
+        <button type="button" onclick="toggleComment({{ post.id }})" style="border:none; background:none; font-size:20px;">
+          💬
+        </button>
+      </div>
+
+      <p><strong>{{ post.like_set.count }} likes</strong></p>
+
+      <p><strong>{{ post.user.username }}</strong> {{ post.caption }}</p>
+
+      {% for comment in post.comment_set.all %}
+        <p style="margin-bottom:3px;">
+          <strong>{{ comment.user.username }}</strong> {{ comment.text }}
+        </p>
+      {% endfor %}
+
+      <div id="comment-box-{{ post.id }}" style="display:none;">
+        <form method="POST" action="{% url 'add_comment' post.id %}">
+          {% csrf_token %}
+          <input type="text" name="comment" placeholder="Add a comment..." class="form-control mt-2">
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+  {% empty %}
+  <div class="text-center mt-4">
+    <h5>No posts yet 😔</h5>
+    <p>Start by creating your first post!</p>
+  </div>
+  {% endfor %}
+
+</div>
+
+<script>
+function toggleComment(postId) {
+    const box = document.getElementById("comment-box-" + postId);
+
+    if (box.style.display === "none") {
+        box.style.display = "block";
+    } else {
+        box.style.display = "none";
+    }
+}
+</script>
+
+{% endblock %}
